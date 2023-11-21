@@ -1,10 +1,23 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { ChargingService, ChargingStatus } from './charging-service'
+import { ChargingApi } from './charging-api'
+
+const chargingApi = new ChargingApi()
+const chargingService = new ChargingService(chargingApi)
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [chargingStatus, setChargingStatus] = useState<ChargingStatus>({
+    charging: false,
+    chargedCapacityKwH: 0,
+    capacityPercentage: 0
+  })
+
+  useEffect(() => {
+    setChargingStatus(chargingService.getStatus())
+  }, [])
 
   return (
     <>
@@ -16,18 +29,18 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
+      <h1>Charging station</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
         <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+          Charging: {chargingStatus.charging ? 'Yes' : 'No'}
+        </p>
+        <p>
+          Charged capacity (kWh): {chargingStatus.chargedCapacityKwH}
+        </p>
+        <p>
+          Capacity %: {chargingStatus.capacityPercentage}
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
