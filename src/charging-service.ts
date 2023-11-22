@@ -4,6 +4,7 @@ export interface ChargingStatus {
     chargedCapacityKwH: number;
     capacityPercentage: number;
     charging: boolean;
+    chargingPower: number;
 }
 
 export class ChargingService {
@@ -22,7 +23,8 @@ export class ChargingService {
         return {
             chargedCapacityKwH: (status.batteryCharge - status.batteryStartCharge) / 1000,
             capacityPercentage: (status.batteryCharge) / status.batteryCapacity,
-            charging: status.charging
+            charging: status.charging,
+            chargingPower: status.chargingPower
         }
     }
 }    
