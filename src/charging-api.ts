@@ -1,7 +1,7 @@
 export class ChargingApi {
     private batteryCapacity: number = 81000;
     private batteryCharge: number = 50000;
-    private batteryStartCharge: number = 10000;
+    private batteryStartCharge: number = 0;
     private charging: boolean = false;
     private chargingPower = 72000; // Tesla Supercharger
     private chargingInterval: number | null = null;
