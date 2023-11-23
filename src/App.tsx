@@ -12,7 +12,8 @@ function App() {
   const [chargingStatus, setChargingStatus] = useState<ChargingStatus>({
     charging: false,
     chargedCapacityKwH: 0,
-    capacityPercentage: 0
+    capacityPercentage: 0,
+    chargingPower: 0
   })
 
   useEffect(() => {
