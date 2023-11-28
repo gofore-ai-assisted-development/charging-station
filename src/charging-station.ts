@@ -1,19 +1,25 @@
+export interface ChargingStatusData {
+    batteryCapacity: number;
+    batteryCharge: number;
+    batteryStartCharge: number;
+    charging: boolean;
+    chargingPower: number;
+}
+
+export interface StationInfo {
+    cableType: 'CCS' | 'CHAdeMO' | 'Type 2';
+    maxChargingPower: number;
+    name: string;
+}
+
 export interface IChargingStation {
     startCharging(): void;
     stopCharging(): void;
-    getStatus(): {
-        batteryCapacity: number;
-        batteryCharge: number;
-        batteryStartCharge: number;
-        charging: boolean;
-        chargingPower: number;
-    };
-    getStationInfo(): {
-        cableType: string;
-        maxChargingPower: number;
-        name: string;
-    };
+    getStatus(): ChargingStatusData;
+    getStationInfo(): StationInfo;
 }
+
+
 export class ChargingStation implements IChargingStation {
     private batteryCapacity: number = 81000; // in Wh
     private batteryCharge: number = 50000; // in Wh
@@ -40,7 +46,7 @@ export class ChargingStation implements IChargingStation {
         }
     }
 
-    public getStatus() {
+    public getStatus(): ChargingStatusData {
         return {
             batteryCapacity: this.batteryCapacity,
             batteryCharge: this.batteryCharge,
@@ -50,7 +56,7 @@ export class ChargingStation implements IChargingStation {
         }
     }
 
-    public getStationInfo() {
+    public getStationInfo(): StationInfo {
         return {
             cableType: 'CCS',
             maxChargingPower: 150000,
