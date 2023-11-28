@@ -1,10 +1,26 @@
-export class ChargingStation {
-    private batteryCapacity: number = 81000;
-    private batteryCharge: number = 50000;
-    private batteryStartCharge: number = 0;
+export interface IChargingStation {
+    startCharging(): void;
+    stopCharging(): void;
+    getStatus(): {
+        batteryCapacity: number;
+        batteryCharge: number;
+        batteryStartCharge: number;
+        charging: boolean;
+        chargingPower: number;
+    };
+    getStationInfo(): {
+        cableType: string;
+        maxChargingPower: number;
+        name: string;
+    };
+}
+export class ChargingStation implements IChargingStation {
+    private batteryCapacity: number = 81000; // in Wh
+    private batteryCharge: number = 50000; // in Wh
+    private batteryStartCharge: number = 0; // in Wh
     private charging: boolean = false;
-    private chargingPower = 72000; // Tesla Supercharger
-    private chargingInterval: number | null = null;
+    private chargingPower = 150000; // in Wh
+    private chargingInterval: NodeJS.Timeout | null = null;
 
     public startCharging() {
         this.charging = true;
@@ -31,6 +47,14 @@ export class ChargingStation {
             batteryStartCharge: this.batteryStartCharge,
             charging: this.charging,
             chargingPower: this.charging ? this.chargingPower : 0
+        }
+    }
+
+    public getStationInfo() {
+        return {
+            cableType: 'CCS',
+            maxChargingPower: 150000,
+            name: 'Kempower 1',
         }
     }
 }
