@@ -53,18 +53,17 @@ function App() {
         </OtherData>
       </Header>
       <FullWidthDiv>
-      Current charging power: {status.chargingPowerKwH} kW
-    </FullWidthDiv>
+        Current charging power: {status.chargingPowerKwH} kW
+      </FullWidthDiv>
       <Content>
         <Part>
-            <p>{Math.ceil(status.capacityPercentage)} %</p>
-            <p>+{status.chargedCapacityKwH*5} km | +{status.chargedCapacityKwH} kWh</p>
+          <p>{Math.ceil(status.capacityPercentage)} %</p>
+          <p>+{Math.round(status.chargedCapacityKwH * 5)} km | +{Math.round(status.chargedCapacityKwH)} kWh</p>
         </Part>
         <Part>
           <BatteryGauge
             value={status.capacityPercentage}
             orientation='vertical'
-            
             charging={status.charging}
             size={150}
           />
@@ -80,8 +79,8 @@ function App() {
         </Part>
       </Content>
       <Footer>
-        <Button>Play</Button>
-        <Button>Pause</Button>
+        <Button onClick={() => api.startCharging()}>Play</Button>
+        <Button onClick={() => api.stopCharging()}>Pause</Button>
       </Footer>
     </>
   )
