@@ -5,6 +5,7 @@ import { ChargingApi } from './charging-api';
 import { IChargingStation, StationInfo } from './charging-station';
 import { ChargingStation } from './charging-station';
 import BatteryGauge from 'react-battery-gauge';
+import QRCode from 'react-qr-code';
 
 function App() {
   const [stationInfo, setStationInfo] = useState<StationInfo>({
@@ -42,7 +43,14 @@ function App() {
             size={150}
           />
         </Part>
-        <Part>Part 3</Part>
+        <Part>
+          <CenteredDiv>
+          <QRCode
+            value="http://192.168.10.53:5173"
+            size={50}
+          />
+          </CenteredDiv>
+        </Part>
       </Content>
       <Footer>
         <Button>Play</Button>
@@ -99,6 +107,13 @@ const Footer = styled.div`
 const Button = styled.button`
   font-size: 1rem;
   padding: 0.5rem 1rem;
+`;
+
+const CenteredDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; // This ensures the div takes up the full height of its parent
 `;
 
 export default App
