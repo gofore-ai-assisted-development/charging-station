@@ -49,6 +49,7 @@ function App() {
             value="http://192.168.10.53:5173"
             size={50}
           />
+            <p style={{ fontSize: '0.4rem' }}>Follow on mobile</p>
           </CenteredDiv>
         </Part>
       </Content>
