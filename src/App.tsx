@@ -4,6 +4,7 @@ import './App.css'
 import { ChargingApi } from './charging-api';
 import { IChargingStation, StationInfo } from './charging-station';
 import { ChargingStation } from './charging-station';
+import BatteryGauge from 'react-battery-gauge';
 
 function App() {
   const [stationInfo, setStationInfo] = useState<StationInfo>({
@@ -33,7 +34,14 @@ function App() {
       </Header>
       <Content>
         <Part>Part 1</Part>
-        <Part>Part 2</Part>
+        <Part>
+          <BatteryGauge
+            value={0.5}
+            orientation='vertical'
+            charging={false}
+            size={150}
+          />
+        </Part>
         <Part>Part 3</Part>
       </Content>
       <Footer>
