@@ -45,10 +45,10 @@ function App() {
         </Part>
         <Part>
           <CenteredDiv>
-          <QRCode
-            value="http://192.168.10.53:5173"
-            size={50}
-          />
+            <QRCode
+              value="http://192.168.10.53:5173"
+              size={50}
+            />
             <p style={{ fontSize: '0.4rem' }}>Follow on mobile</p>
           </CenteredDiv>
         </Part>
@@ -111,7 +111,7 @@ const Button = styled.button`
 `;
 
 const CenteredDiv = styled.div`
-  display: flex;
+  display: block;
   justify-content: center;
   align-items: center;
   height: 100%; // This ensures the div takes up the full height of its parent
