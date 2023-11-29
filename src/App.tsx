@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import './App.css'
-import { ChargingApi } from './charging-api';
+import { ChargingApi, ChargingStatus } from './charging-api';
 import { IChargingStation, StationInfo } from './charging-station';
 import { ChargingStation } from './charging-station';
 import BatteryGauge from 'react-battery-gauge';
 import QRCode from 'react-qr-code';
+
+const station: IChargingStation = new ChargingStation()
+const api = new ChargingApi(station);
 
 function App() {
   const [stationInfo, setStationInfo] = useState<StationInfo>({
@@ -14,12 +17,28 @@ function App() {
     cableType: 'CCS'
   });
 
+  const [status, setStatus] = useState<ChargingStatus>({
+    chargedCapacityKwH: 0,
+    charging: false,
+    chargingPowerKwH: 0,
+    capacityPercentage: 0,
+  })
+
   useEffect(() => {
-    const station: IChargingStation = new ChargingStation()
-    const api = new ChargingApi(station);
     const info = api.getStationInfo();
     setStationInfo(info);
   }, []);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const currentStatus = api.getStatus();
+      setStatus(currentStatus);
+    }, 1000);
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
 
   return (
     <>
@@ -33,13 +52,20 @@ function App() {
           )}
         </OtherData>
       </Header>
+      <FullWidthDiv>
+      Current charging power: {status.chargingPowerKwH} kW
+    </FullWidthDiv>
       <Content>
-        <Part>Part 1</Part>
+        <Part>
+            <p>{Math.ceil(status.capacityPercentage)} %</p>
+            <p>+{status.chargedCapacityKwH*5} km | +{status.chargedCapacityKwH} kWh</p>
+        </Part>
         <Part>
           <BatteryGauge
-            value={0.5}
+            value={status.capacityPercentage}
             orientation='vertical'
-            charging={false}
+            
+            charging={status.charging}
             size={150}
           />
         </Part>
@@ -115,6 +141,11 @@ const CenteredDiv = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%; // This ensures the div takes up the full height of its parent
+`;
+
+const FullWidthDiv = styled.div`
+  width: 100%;
+  text-align: center;
 `;
 
 export default App
